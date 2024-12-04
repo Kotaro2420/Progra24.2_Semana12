@@ -11,15 +11,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Button startButton;
     [SerializeField] private TMP_InputField playerNameInputField;
+    [SerializeField] private string sceneName;
 
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        startButton.onClick.AddListener(OnClicked);
+        startButton.onClick.AddListener(OnStartButtonClicked);
     }
 
-
-    private void OnClicked()
+    private void OnStartButtonClicked()
     {
         GameData.playerName = playerNameInputField.text;
         PhotonNetwork.ConnectUsingSettings();
@@ -32,15 +32,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         options.IsVisible = true;
         options.MaxPlayers = 4;
 
-        PhotonNetwork.JoinOrCreateRoom("Room1", options, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom("Room", options, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("GameplayScene");
+            PhotonNetwork.LoadLevel(sceneName);
         }
-
     }
 }
