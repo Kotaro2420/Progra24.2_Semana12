@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun.Demo.Asteroids;
 public class Player : MonoBehaviourPun
 {
     private static GameObject localInstance;
@@ -13,6 +14,8 @@ public class Player : MonoBehaviourPun
     [SerializeField] private float speed;
 
     public static GameObject LocalInstance { get { return localInstance; } }
+
+    [SerializeField] private GameObject bulletPrefab;
 
     private void Awake()
     {
@@ -39,6 +42,7 @@ public class Player : MonoBehaviourPun
             return;
         }
         Move();
+        Shoot();
     }
 
     void Move()
@@ -51,6 +55,15 @@ public class Player : MonoBehaviourPun
         if (horizontal != 0 || vertical != 0)
         {
             transform.forward = new Vector3(horizontal, 0, vertical);
+        }
+    }
+
+    void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject obj = PhotonNetwork.Instantiate(bulletPrefab.name, transform.position, Quaternion.identity);
+            obj.GetComponent<Bullet>().SetUp(transform.forward, photonView.ViewID);
         }
     }
 
