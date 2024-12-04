@@ -426,6 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startButton: {fileID: 1432540222}
   playerNameInputField: {fileID: 1237728832}
+  GameplayScene: Gameplay
 --- !u!1 &914155400
 GameObject:
   m_ObjectHideFlags: 0

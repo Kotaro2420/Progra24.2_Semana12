@@ -11,7 +11,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Button startButton;
     [SerializeField] private TMP_InputField playerNameInputField;
-    [SerializeField] private string GameplayScene;
 
     private void Awake()
     {
