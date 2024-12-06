@@ -123,7 +123,7 @@ public class Player : MonoBehaviourPun
 
         photonView.RPC(nameof(ReduceHp), RpcTarget.AllBuffered);
     }
-
+    [PunRPC]
     private void ReduceHp()
     {
         hp -= 1;
