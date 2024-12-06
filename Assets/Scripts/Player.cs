@@ -120,6 +120,17 @@ public class Player : MonoBehaviourPun
     private void takeDamage()
     {
         hp -= 1;
+
+        photonView.RPC(nameof(ReduceHp), RpcTarget.AllBuffered);
+    }
+
+    private void ReduceHp()
+    {
+        hp -= 1;
+        if (photonView.IsMine)
+        {
+            Debug.Log($"Player {photonView.ViewID} HP: {hp}");
+        }
     }
 
     private void UpdateData()
