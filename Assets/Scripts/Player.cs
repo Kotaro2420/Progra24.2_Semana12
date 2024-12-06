@@ -108,7 +108,7 @@ public class Player : MonoBehaviourPun
         if (bullet != null && bullet.ownerId != photonView.ViewID)
         {
             takeDamage();
-            Destroy(other.gameObject);
+            bullet.photonView.RPC("DestroyBullet", RpcTarget.AllBuffered);
         }
         if (other.gameObject.CompareTag("Coin"))
         {

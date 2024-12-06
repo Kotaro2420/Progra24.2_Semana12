@@ -29,4 +29,13 @@ public class Bullet : MonoBehaviourPun
         }
         rb.velocity = direction * speed;
     }
+
+    [PunRPC]
+    public void DestroyBullet()
+    {
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
 }
