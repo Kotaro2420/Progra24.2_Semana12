@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coin: {fileID: 3045504270647716745, guid: 4a207d9a0cc00b74f9150eed62e63861, type: 3}
   sizeSpawner: {x: 18.91, y: 10}
-  spawnInterval: 10
+  spawnInterval: 0.5
 --- !u!4 &2060290649
 Transform:
   m_ObjectHideFlags: 0

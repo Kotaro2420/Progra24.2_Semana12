@@ -6,7 +6,7 @@ public class SpawnerCoins : MonoBehaviour
 {
     [SerializeField] private GameObject coin;
     [SerializeField] private Vector2 sizeSpawner = new Vector2(10, 10);
-    [SerializeField] private float spawnInterval = 3;
+    [SerializeField] private float spawnInterval = 3f;
 
     private void Start()
     {
