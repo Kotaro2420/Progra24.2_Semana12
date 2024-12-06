@@ -107,12 +107,19 @@ public class Player : MonoBehaviourPun
 
         if (bullet != null && bullet.ownerId != photonView.ViewID)
         {
-            takeDamage();
+            if (photonView.IsMine)
+            {
+                takeDamage();
+            }
+
             bullet.photonView.RPC("DestroyBullet", RpcTarget.AllBuffered);
         }
         if (other.gameObject.CompareTag("Coin"))
         {
-            coins++;
+            if (photonView.IsMine)
+            {
+                coins++;
+            }
             Destroy(other.gameObject);
         }
     }
@@ -121,17 +128,8 @@ public class Player : MonoBehaviourPun
     {
         hp -= 1;
 
-        photonView.RPC(nameof(ReduceHp), RpcTarget.AllBuffered);
     }
     [PunRPC]
-    private void ReduceHp()
-    {
-        hp -= 1;
-        if (photonView.IsMine)
-        {
-            Debug.Log($"Player {photonView.ViewID} HP: {hp}");
-        }
-    }
 
     private void UpdateData()
     {
