@@ -1,10 +1,9 @@
+using GameJolt.API;
+using GameJolt.API.Objects;
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using Photon.Pun.Demo.Asteroids;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine;
+
 public class Player : MonoBehaviourPun
 {
     private static GameObject localInstance;
@@ -37,7 +36,6 @@ public class Player : MonoBehaviourPun
             playerRenderer.material.color = GameData.playerColor;
         }
         DontDestroyOnLoad(gameObject);
-
     }
 
     [PunRPC]
@@ -105,31 +103,50 @@ public class Player : MonoBehaviourPun
     {
         Bullet bullet = other.gameObject.GetComponent<Bullet>();
 
-        if (bullet != null && bullet.ownerId != photonView.ViewID)
+        if (bullet != null && bullet.ownerId != photonView.ViewID) // Asegúrate de que no sea tu propio disparo
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine) // Solo el jugador objetivo recibe el daño
             {
                 takeDamage();
+                // Trofeo por matar a un jugador
+                Trophies.Unlock(251913); // Kill a Player Trophy
             }
 
-            bullet.photonView.RPC("DestroyBullet", RpcTarget.AllBuffered);
+            bullet.photonView.RPC("DestroyBullet", RpcTarget.AllBuffered); // Destruye la bala en todos los clientes
         }
+
         if (other.gameObject.CompareTag("Coin"))
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine) // Solo el jugador local incrementa sus monedas
             {
                 coins++;
+                if (coins == 1)
+                {
+                    Trophies.Unlock(251910); // A Coin Trophy
+                }
+                if (coins == 20)
+                {
+                    Trophies.Unlock(251911); // 20 Coins Trophy
+                }
+                if (coins == 50)
+                {
+                    Trophies.Unlock(251912); // 50 Coins Trophy
+                }
             }
-            Destroy(other.gameObject);
+            Destroy(other.gameObject); // Destruye la moneda
         }
     }
 
     private void takeDamage()
     {
         hp -= 1;
+        Debug.Log($"Player {photonView.ViewID} took damage. HP left: {hp}");
 
+        if (hp <= 0)
+        {
+            CheckPlayerIsAlive();
+        }
     }
-    [PunRPC]
 
     private void UpdateData()
     {
@@ -139,5 +156,4 @@ public class Player : MonoBehaviourPun
             GameData.playerScore = coins;
         }
     }
-
 }
