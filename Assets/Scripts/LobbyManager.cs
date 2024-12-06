@@ -17,14 +17,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button mediumSpeedButton;
     [SerializeField] private Button fastSpeedButton;
 
+    [SerializeField] private Button redBulletButton;
+    [SerializeField] private Button blueBulletButton;
+    [SerializeField] private Button greenBulletButton;
+
+    [SerializeField] private Button redPlayerButton;
+    [SerializeField] private Button bluePlayerButton;
+    [SerializeField] private Button greenPlayerButton;
+
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         startButton.onClick.AddListener(OnStartButtonClicked);
 
         slowSpeedButton.onClick.AddListener(() => SetShootingSpeed(1.5f));
-        mediumSpeedButton.onClick.AddListener(() => SetShootingSpeed(3f)); 
-        fastSpeedButton.onClick.AddListener(() => SetShootingSpeed(5f)); 
+        mediumSpeedButton.onClick.AddListener(() => SetShootingSpeed(3f));
+        fastSpeedButton.onClick.AddListener(() => SetShootingSpeed(5f));
+
+        redBulletButton.onClick.AddListener(() => SetBulletColor(Color.red));
+        blueBulletButton.onClick.AddListener(() => SetBulletColor(Color.blue));
+        greenBulletButton.onClick.AddListener(() => SetBulletColor(Color.green));
+
+        redPlayerButton.onClick.AddListener(() => SetPlayerColor(Color.red));
+        bluePlayerButton.onClick.AddListener(() => SetPlayerColor(Color.blue));
+        greenPlayerButton.onClick.AddListener(() => SetPlayerColor(Color.green));
     }
 
     private void OnStartButtonClicked()
@@ -54,5 +70,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void SetShootingSpeed(float speed)
     {
         GameData.shootingSpeed = speed;
+    }
+
+    private void SetBulletColor(Color color)
+    {
+        GameData.bulletColor = color;
+    }
+
+    private void SetPlayerColor(Color color)
+    {
+        GameData.playerColor = color;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviourPun
 {
-    private int ownerId;
+    public int ownerId;
     private Rigidbody rb;
     [SerializeField] private float speed;
     private Vector3 direction;

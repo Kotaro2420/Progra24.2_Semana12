@@ -165,8 +165,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNameText: {fileID: 5044487408359714831}
   speedMove: 6
+  coins: 0
+  hp: 20
   bulletPrefab: {fileID: 5838500952636307853, guid: 744ec804eb43c73488275919ded85271,
     type: 3}
+  playerRenderer: {fileID: 6329142255795395624}
   bulletSpeed: 0
 --- !u!54 &8086944873224963070
 Rigidbody:

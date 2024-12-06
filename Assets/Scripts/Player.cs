@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun.Demo.Asteroids;
+using UnityEngine.SocialPlatforms.Impl;
 public class Player : MonoBehaviourPun
 {
     private static GameObject localInstance;
@@ -11,12 +12,17 @@ public class Player : MonoBehaviourPun
     [SerializeField] private TextMeshPro playerNameText;
 
     private Rigidbody rb;
-    [SerializeField] private float speedMove = 5;
+    [SerializeField] private float speedMove = 1f;
+    [SerializeField] private int coins;
+    [SerializeField] private int hp;
 
     public static GameObject LocalInstance { get { return localInstance; } }
 
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Renderer playerRenderer;
     [SerializeField] private float bulletSpeed;
+
+    private bool isAlive = true;
 
     private void Awake()
     {
@@ -28,9 +34,10 @@ public class Player : MonoBehaviourPun
             localInstance = gameObject;
             bulletSpeed = GameData.shootingSpeed;
 
+            playerRenderer.material.color = GameData.playerColor;
         }
         DontDestroyOnLoad(gameObject);
-        
+
     }
 
     [PunRPC]
@@ -47,6 +54,8 @@ public class Player : MonoBehaviourPun
         }
         Move();
         Shoot();
+        CheckPlayerIsAlive();
+        UpdateData();
     }
 
     void Move()
@@ -71,10 +80,52 @@ public class Player : MonoBehaviourPun
 
     void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isAlive == true)
         {
-            GameObject obj = PhotonNetwork.Instantiate(bulletPrefab.name, transform.position, Quaternion.identity);
-            obj.GetComponent<Bullet>().SetUp(transform.forward * bulletSpeed, photonView.ViewID);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                GameObject obj = PhotonNetwork.Instantiate(bulletPrefab.name, transform.position, Quaternion.identity);
+                obj.GetComponent<Bullet>().SetUp(transform.forward * bulletSpeed, photonView.ViewID);
+
+                obj.GetComponent<Renderer>().material.color = GameData.bulletColor;
+            }
+        }
+    }
+
+    private void CheckPlayerIsAlive()
+    {
+        if (hp <= 0)
+        {
+            speedMove = 0;
+            isAlive = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Bullet bullet = other.gameObject.GetComponent<Bullet>();
+        if (bullet != null && bullet.ownerId != photonView.ViewID)
+        {
+            takeDamage();
+        }
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            coins++;
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void takeDamage()
+    {
+        hp -= 1;
+    }
+
+    private void UpdateData()
+    {
+        if (isAlive)
+        {
+            GameData.playerHp = hp;
+            GameData.playerScore = coins;
         }
     }
 
