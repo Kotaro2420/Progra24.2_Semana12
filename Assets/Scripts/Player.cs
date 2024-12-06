@@ -21,6 +21,7 @@ public class Player : MonoBehaviourPun
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Renderer playerRenderer;
     [SerializeField] private float bulletSpeed;
+    [SerializeField] private GameObject shootPoint;
 
     private bool isAlive = true;
 
@@ -84,7 +85,7 @@ public class Player : MonoBehaviourPun
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                GameObject obj = PhotonNetwork.Instantiate(bulletPrefab.name, transform.position, Quaternion.identity);
+                GameObject obj = PhotonNetwork.Instantiate(bulletPrefab.name, shootPoint.transform.position, Quaternion.identity);
                 obj.GetComponent<Bullet>().SetUp(transform.forward * bulletSpeed, photonView.ViewID);
 
                 obj.GetComponent<Renderer>().material.color = GameData.bulletColor;
@@ -104,7 +105,7 @@ public class Player : MonoBehaviourPun
     private void OnTriggerEnter(Collider other)
     {
         Bullet bullet = other.gameObject.GetComponent<Bullet>();
-        if (bullet != null && bullet.ownerId != photonView.ViewID)
+        if (other.gameObject.CompareTag("Bullet"))
         {
             takeDamage();
         }
