@@ -164,9 +164,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameText: {fileID: 5044487408359714831}
-  speed: 5
+  speedMove: 0
   bulletPrefab: {fileID: 5838500952636307853, guid: 744ec804eb43c73488275919ded85271,
     type: 3}
+  bulletSpeed: 0
 --- !u!54 &8086944873224963070
 Rigidbody:
   m_ObjectHideFlags: 0

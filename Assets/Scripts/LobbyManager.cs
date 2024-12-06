@@ -22,9 +22,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         startButton.onClick.AddListener(OnStartButtonClicked);
 
-        slowSpeedButton.onClick.AddListener(() => SetShootingSpeed(5f)); //
-        mediumSpeedButton.onClick.AddListener(() => SetShootingSpeed(10f)); 
-        fastSpeedButton.onClick.AddListener(() => SetShootingSpeed(15f)); 
+        slowSpeedButton.onClick.AddListener(() => SetShootingSpeed(1.5f)); //
+        mediumSpeedButton.onClick.AddListener(() => SetShootingSpeed(3f)); 
+        fastSpeedButton.onClick.AddListener(() => SetShootingSpeed(5f)); 
     }
 
     private void OnStartButtonClicked()
