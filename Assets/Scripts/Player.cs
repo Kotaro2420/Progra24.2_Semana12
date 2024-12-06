@@ -11,7 +11,7 @@ public class Player : MonoBehaviourPun
     [SerializeField] private TextMeshPro playerNameText;
 
     private Rigidbody rb;
-    [SerializeField] private float speedMove;
+    [SerializeField] private float speedMove = 5;
 
     public static GameObject LocalInstance { get { return localInstance; } }
 
@@ -20,6 +20,7 @@ public class Player : MonoBehaviourPun
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         if (photonView.IsMine)
         {
             playerNameText.text = GameData.playerName;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviourPun
 
         }
         DontDestroyOnLoad(gameObject);
-        rb = GetComponent<Rigidbody>();
+        
     }
 
     [PunRPC]

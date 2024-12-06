@@ -53,6 +53,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void SetShootingSpeed(float speed)
     {
-        GameData.shootingSpeed = speed; //
+        GameData.shootingSpeed = speed;
     }
 }
