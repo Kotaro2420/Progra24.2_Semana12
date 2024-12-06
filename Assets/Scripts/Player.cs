@@ -103,37 +103,36 @@ public class Player : MonoBehaviourPun
     {
         Bullet bullet = other.gameObject.GetComponent<Bullet>();
 
-        if (bullet != null && bullet.ownerId != photonView.ViewID) // Asegúrate de que no sea tu propio disparo
+        if (bullet != null && bullet.ownerId != photonView.ViewID)
         {
-            if (photonView.IsMine) // Solo el jugador objetivo recibe el daño
+            if (photonView.IsMine)
             {
                 takeDamage();
-                // Trofeo por matar a un jugador
-                Trophies.Unlock(251913); // Kill a Player Trophy
+                Trophies.Unlock(251913);
             }
 
-            bullet.photonView.RPC("DestroyBullet", RpcTarget.AllBuffered); // Destruye la bala en todos los clientes
+            bullet.photonView.RPC("DestroyBullet", RpcTarget.AllBuffered);
         }
 
         if (other.gameObject.CompareTag("Coin"))
         {
-            if (photonView.IsMine) // Solo el jugador local incrementa sus monedas
+            if (photonView.IsMine)
             {
                 coins++;
                 if (coins == 1)
                 {
-                    Trophies.Unlock(251910); // A Coin Trophy
+                    Trophies.Unlock(251910);
                 }
                 if (coins == 20)
                 {
-                    Trophies.Unlock(251911); // 20 Coins Trophy
+                    Trophies.Unlock(251911);
                 }
                 if (coins == 50)
                 {
-                    Trophies.Unlock(251912); // 50 Coins Trophy
+                    Trophies.Unlock(251912);
                 }
             }
-            Destroy(other.gameObject); // Destruye la moneda
+            Destroy(other.gameObject);
         }
     }
 
