@@ -5,5 +5,5 @@ using UnityEngine;
 public static class GameData
 {
     public static string playerName;
-    public static float shootingSpeed = 1f; //
+    public static float shootingSpeed = 1f;
 }

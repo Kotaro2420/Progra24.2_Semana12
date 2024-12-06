@@ -50,10 +50,17 @@ public class Player : MonoBehaviourPun
 
     void Move()
     {
+        if (!photonView.IsMine || !PhotonNetwork.IsConnected)
+        {
+            return;
+        }
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        rb.velocity = new Vector3(horizontal * speedMove, rb.velocity.y, vertical * speedMove);
+        Vector3 movement = new Vector3(horizontal * speedMove, rb.velocity.y, vertical * speedMove);
+
+        rb.velocity = movement;
 
         if (horizontal != 0 || vertical != 0)
         {
