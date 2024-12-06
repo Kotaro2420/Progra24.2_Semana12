@@ -11,11 +11,12 @@ public class Player : MonoBehaviourPun
     [SerializeField] private TextMeshPro playerNameText;
 
     private Rigidbody rb;
-    [SerializeField] private float speed;
+    [SerializeField] private float speedMove;
 
     public static GameObject LocalInstance { get { return localInstance; } }
 
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float bulletSpeed;
 
     private void Awake()
     {
@@ -24,6 +25,8 @@ public class Player : MonoBehaviourPun
             playerNameText.text = GameData.playerName;
             photonView.RPC("SetName", RpcTarget.AllBuffered, GameData.playerName);
             localInstance = gameObject;
+            bulletSpeed = GameData.shootingSpeed;
+
         }
         DontDestroyOnLoad(gameObject);
         rb = GetComponent<Rigidbody>();
@@ -50,7 +53,7 @@ public class Player : MonoBehaviourPun
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        rb.velocity = new Vector3(horizontal * speed, rb.velocity.y, vertical * speed);
+        rb.velocity = new Vector3(horizontal * speedMove, rb.velocity.y, vertical * speedMove);
 
         if (horizontal != 0 || vertical != 0)
         {
@@ -63,7 +66,7 @@ public class Player : MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameObject obj = PhotonNetwork.Instantiate(bulletPrefab.name, transform.position, Quaternion.identity);
-            obj.GetComponent<Bullet>().SetUp(transform.forward, photonView.ViewID);
+            obj.GetComponent<Bullet>().SetUp(transform.forward * bulletSpeed, photonView.ViewID);
         }
     }
 

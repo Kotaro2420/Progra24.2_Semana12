@@ -27,6 +27,6 @@ public class Bullet : MonoBehaviourPun
         {
             return;
         }
-        rb.velocity = direction.normalized * speed;
+        rb.velocity = direction * speed;
     }
 }

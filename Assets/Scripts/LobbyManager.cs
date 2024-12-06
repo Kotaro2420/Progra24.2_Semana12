@@ -13,10 +13,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField playerNameInputField;
     [SerializeField] private string sceneName;
 
+    [SerializeField] private Button slowSpeedButton;
+    [SerializeField] private Button mediumSpeedButton;
+    [SerializeField] private Button fastSpeedButton;
+
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         startButton.onClick.AddListener(OnStartButtonClicked);
+
+        slowSpeedButton.onClick.AddListener(() => SetShootingSpeed(5f)); //
+        mediumSpeedButton.onClick.AddListener(() => SetShootingSpeed(10f)); 
+        fastSpeedButton.onClick.AddListener(() => SetShootingSpeed(15f)); 
     }
 
     private void OnStartButtonClicked()
@@ -41,5 +49,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel(sceneName);
         }
+    }
+
+    private void SetShootingSpeed(float speed)
+    {
+        GameData.shootingSpeed = speed; //
     }
 }
